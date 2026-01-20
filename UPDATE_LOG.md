@@ -66,3 +66,16 @@
 - Exception handling để không crash hệ thống nếu PDF lỗi
 - Logging để theo dõi quá trình extraction
 - Chuẩn bị dữ liệu cho AI scoring sau này
+
+## Update lần 7 - 10:23 PM 20/01/2026
+
+**Đã thêm:**
+
+- Hàm preprocess_text() để tiền xử lý văn bản CV
+- Field cleaned_text (TextField) trong model CV
+- Pipeline xử lý: extract → preprocess → save
+- Lowercase transformation
+- Loại bỏ ký tự đặc biệt (chỉ giữ chữ, số, khoảng trắng)
+- Loại bỏ khoảng trắng thừa
+- Exception handling cho text processing
+- Dữ liệu đã sạch, sẵn sàng cho AI model
