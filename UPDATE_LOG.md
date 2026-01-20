@@ -21,3 +21,14 @@
 - Media configuration (MEDIA_URL, MEDIA_ROOT)
 - Admin interface cho CV model
 - Serve media files trong development
+
+## Update lần 3 - 9:52 PM 20/01/2026
+
+**Đã thêm:**
+
+- CVUploadForm chỉ cho phép upload file PDF
+- View upload_cv với @role_required('candidate')
+- URL /cv/upload/ cho upload CV
+- Template upload_cv.html với form multipart
+- Chặn recruiter upload CV (403 Forbidden)
+- CV tự động gắn với user đang login
