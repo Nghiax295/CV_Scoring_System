@@ -10,6 +10,7 @@ class CV(models.Model):
     )
     file = models.FileField(upload_to='cvs/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
+    extracted_text = models.TextField(null=True, blank=True)
 
     class Meta:
         ordering = ['-uploaded_at']

@@ -4,6 +4,7 @@ from django.contrib import messages
 from accounts.decorators import role_required
 from .forms import CVUploadForm
 from .models import CV
+from .services import extract_text_from_pdf
 
 
 @login_required
@@ -15,6 +16,13 @@ def upload_cv(request):
             cv = form.save(commit=False)
             cv.owner = request.user
             cv.save()
+            
+            # Trích xuất text từ PDF
+            extracted_text = extract_text_from_pdf(cv)
+            if extracted_text:
+                cv.extracted_text = extracted_text
+                cv.save(update_fields=['extracted_text'])
+            
             messages.success(request, 'CV uploaded successfully!')
             return redirect('my_cv_list')
     else:
