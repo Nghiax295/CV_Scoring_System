@@ -54,3 +54,15 @@
 - Query với select_related('owner') để optimize database
 - Read-only cho recruiter, không có chức năng upload/xóa
 - Chặn candidate truy cập danh sách CV của recruiter (403 Forbidden)
+
+## Update lần 6 - 10:15 PM 20/01/2026
+
+**Đã thêm:**
+
+- Thư viện PyPDF2 để trích xuất text từ PDF
+- Field extracted_text (TextField) trong model CV
+- Service layer: cv/services.py với hàm extract_text_from_pdf()
+- Tự động trích xuất text sau khi upload CV thành công
+- Exception handling để không crash hệ thống nếu PDF lỗi
+- Logging để theo dõi quá trình extraction
+- Chuẩn bị dữ liệu cho AI scoring sau này
