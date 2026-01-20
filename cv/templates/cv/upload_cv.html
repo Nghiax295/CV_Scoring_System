@@ -1,29 +1,26 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
+  <head>
     <title>Upload CV</title>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Upload Your CV</h1>
-    
-    {% if messages %}
-        {% for message in messages %}
-            <p style="color: green;">{{ message }}</p>
-        {% endfor %}
-    {% endif %}
-    
+
+    {% if messages %} {% for message in messages %}
+    <p style="color: green">{{ message }}</p>
+    {% endfor %} {% endif %}
+
     <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div>
-            <label>Select PDF file:</label>
-            {{ form.file }}
-            {% if form.file.errors %}
-                <p style="color: red;">{{ form.file.errors }}</p>
-            {% endif %}
-        </div>
-        <button type="submit">Upload</button>
+      {% csrf_token %}
+      <div>
+        <label>Select PDF file:</label>
+        {{ form.file }} {% if form.file.errors %}
+        <p style="color: red">{{ form.file.errors }}</p>
+        {% endif %}
+      </div>
+      <button type="submit">Upload</button>
     </form>
-    
+
     <p><a href="{% url 'candidate_dashboard' %}">Back to Dashboard</a></p>
-</body>
+  </body>
 </html>
