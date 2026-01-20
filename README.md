@@ -5,6 +5,7 @@ Hệ thống chấm điểm CV sử dụng AI để đánh giá và xếp hạng
 ## Giới thiệu
 
 CVScoringSystem là một ứng dụng Django được xây dựng để:
+
 - Tự động phân tích và chấm điểm CV của ứng viên
 - Hỗ trợ nhà tuyển dụng (recruiter) quản lý và đánh giá ứng viên
 - Tích hợp AI để phân tích kỹ năng và kinh nghiệm (sẽ tích hợp sau)
@@ -28,12 +29,14 @@ cd Python
 ### 2. Tạo và kích hoạt virtual environment
 
 **Windows PowerShell:**
+
 ```powershell
 python -m venv venv
 .\venv\Scripts\Activate.ps1
 ```
 
 **Linux/Mac:**
+
 ```bash
 python -m venv venv
 source venv/bin/activate
@@ -64,6 +67,7 @@ python manage.py runserver
 ```
 
 Truy cập:
+
 - Trang chủ: http://127.0.0.1:8000/
 - Admin: http://127.0.0.1:8000/admin/
 

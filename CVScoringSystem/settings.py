@@ -119,3 +119,6 @@ STATIC_URL = 'static/'
 
 # Custom User Model
 AUTH_USER_MODEL = 'accounts.User'
+
+# Login URL
+LOGIN_URL = 'login'
