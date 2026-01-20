@@ -32,3 +32,14 @@
 - Template upload_cv.html với form multipart
 - Chặn recruiter upload CV (403 Forbidden)
 - CV tự động gắn với user đang login
+
+## Update lần 4 - 10:00 PM 20/01/2026
+
+**Đã thêm:**
+
+- View my_cv_list để candidate xem danh sách CV của mình
+- URL /cv/my/ với @role_required('candidate')
+- Template my_cv_list.html hiển thị tên file, thời gian, link download
+- Query CV theo owner và order by uploaded_at giảm dần
+- Chặn recruiter xem CV của candidate (403 Forbidden)
+- Redirect về my_cv_list sau khi upload thành công
