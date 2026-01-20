@@ -43,3 +43,14 @@
 - Query CV theo owner và order by uploaded_at giảm dần
 - Chặn recruiter xem CV của candidate (403 Forbidden)
 - Redirect về my_cv_list sau khi upload thành công
+
+## Update lần 5 - 10:07 PM 20/01/2026
+
+**Đã thêm:**
+
+- View recruiter_cv_list để recruiter xem tất cả CV
+- URL /cv/recruiter/ với @role_required('recruiter')
+- Template recruiter_cv_list.html hiển thị candidate, email, file, thời gian, download
+- Query với select_related('owner') để optimize database
+- Read-only cho recruiter, không có chức năng upload/xóa
+- Chặn candidate truy cập danh sách CV của recruiter (403 Forbidden)
