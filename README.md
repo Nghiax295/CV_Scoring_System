@@ -76,6 +76,7 @@ Truy cập:
 ```
 Python/
 ├── venv/                      # Virtual environment
+├── media/                     # Uploaded files (CVs)
 ├── CVScoringSystem/           # Django core settings
 │   ├── __init__.py
 │   ├── asgi.py
@@ -84,15 +85,85 @@ Python/
 │   └── wsgi.py
 ├── accounts/                  # App quản lý user
 │   ├── migrations/           # Database migrations
+│   ├── templates/            # Login & dashboard templates
 │   ├── admin.py              # Admin configuration
-│   ├── apps.py
+│   ├── decorators.py         # role_required decorator
 │   ├── models.py             # Custom User model
-│   ├── tests.py
-│   └── views.py
+│   ├── views.py              # Authentication views
+│   └── urls.py               # Account URLs
+├── cv/                        # App quản lý CV
+│   ├── migrations/           # Database migrations
+│   ├── templates/            # CV templates
+│   ├── admin.py              # CV admin
+│   ├── forms.py              # CV upload form
+│   ├── models.py             # CV model
+│   ├── views.py              # CV views
+│   └── urls.py               # CV URLs
 ├── manage.py                  # Django CLI
 ├── requirements.txt           # Python dependencies
+├── UPDATE_LOG.md             # Update history
 ├── .gitignore                # Git ignore rules
 └── README.md                 # Documentation
+```
+
+## Chức năng hiện tại
+
+### 🔐 Authentication & Authorization
+
+- Login/Logout system
+- Role-based access control (recruiter/candidate)
+- Custom decorator `@role_required`
+- 403 Forbidden cho truy cập không hợp lệ
+
+### 👤 User Management
+
+- Custom User model với field `role`
+- Django admin interface để quản lý users
+- Phân quyền: recruiter / candidate
+
+### 📄 CV Management
+
+**Candidate:**
+
+- Upload CV (chỉ file PDF) tại `/cv/upload/`
+- Xem danh sách CV của mình tại `/cv/my/`
+- Download CV đã upload
+
+**Recruiter:**
+
+- Xem tất cả CV của candidates tại `/cv/recruiter/`
+- Download bất kỳ CV nào
+- Read-only access (không upload/xóa)
+
+### 🎯 Dashboard
+
+- Candidate dashboard: `/candidate/dashboard/`
+- Recruiter dashboard: `/recruiter/dashboard/`
+- Redirect tự động theo role sau login
+
+## URLs chính
+
+| URL                     | Role      | Mô tả                    |
+| ----------------------- | --------- | ------------------------ |
+| `/login/`               | All       | Đăng nhập                |
+| `/logout/`              | All       | Đăng xuất                |
+| `/admin/`               | Admin     | Django admin             |
+| `/candidate/dashboard/` | Candidate | Dashboard ứng viên       |
+| `/recruiter/dashboard/` | Recruiter | Dashboard nhà tuyển dụng |
+| `/cv/upload/`           | Candidate | Upload CV                |
+| `/cv/my/`               | Candidate | Danh sách CV của mình    |
+| `/cv/recruiter/`        | Recruiter | Xem tất cả CV            |
+
+## Test Accounts
+
+Sau khi chạy migrations, tạo test users:
+
+```bash
+# Candidate
+python manage.py shell -c "from accounts.models import User; User.objects.create_user(username='candidate', password='candidate123', role='candidate')"
+
+# Recruiter
+python manage.py shell -c "from accounts.models import User; User.objects.create_user(username='recruiter', password='recruiter123', role='recruiter')"
 ```
 
 ## Trạng thái hiện tại
@@ -104,48 +175,30 @@ Python/
   - `recruiter`: Nhà tuyển dụng
   - `candidate`: Ứng viên (default)
 - **Admin Interface**: Quản lý user với role selector
-- **Authentication**: Django auth system đã cấu hình
+- **Authentication**: Login/Logout với role-based redirect
+- **CV Upload**: Candidate upload PDF files
+- **CV Management**: View, list, download CVs
+- **Access Control**: Role-based với decorator
+- **Media Files**: Cấu hình upload và serve files
 
 ### 🚧 Đang phát triển
 
-- CV upload và parsing
 - AI scoring engine
-- Dashboard cho recruiter
-- Profile cho candidate
-
-## Git workflow
-
-### Push lên GitHub
-
-```bash
-git remote add origin <github-repo-url>
-git branch -M main
-git push -u origin main
-```
-
-### Commit convention
-
-```bash
-git add .
-git commit -m "Mô tả ngắn gọn thay đổi"
-git push
-```
-
-## Lưu ý
-
-- **Database**: SQLite (chỉ dùng cho development)
-- **SECRET_KEY**: Đổi trong production
-- **DEBUG**: Tắt trong production
-- **ALLOWED_HOSTS**: Cấu hình cho production
+- CV parsing tự động
+- Filter và search CVs
+- Candidate profile detail
+- Recruiter analytics dashboard
 
 ## Roadmap
 
 1. ✅ Setup Django project
 2. ✅ Custom User model với role
 3. ✅ Admin interface
-4. 🔲 CV upload functionality
-5. 🔲 AI scoring engine
-6. 🔲 Recruiter dashboard
-7. 🔲 Candidate profile
-8. 🔲 API endpoints
-9. 🔲 Frontend UI
+4. ✅ CV upload functionality
+5. ✅ CV list cho candidate
+6. ✅ CV list cho recruiter
+7. 🔲 AI scoring engine
+8. 🔲 CV parsing và extract thông tin
+9. 🔲 Search và filter CVs
+10. 🔲 API endpoints
+11. 🔲 Frontend UI nâng cao
