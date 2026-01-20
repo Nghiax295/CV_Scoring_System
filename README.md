@@ -1,17 +1,20 @@
 # CVScoringSystem
 
-Django project sạch, chuẩn, sẵn sàng phát triển.
+Hệ thống chấm điểm CV sử dụng AI để đánh giá và xếp hạng ứng viên tự động.
 
-## Công nghệ
+## Giới thiệu
 
-- Python
-- Django 6.0.1
-- SQLite (mặc định)
+CVScoringSystem là một ứng dụng Django được xây dựng để:
+- Tự động phân tích và chấm điểm CV của ứng viên
+- Hỗ trợ nhà tuyển dụng (recruiter) quản lý và đánh giá ứng viên
+- Tích hợp AI để phân tích kỹ năng và kinh nghiệm (sẽ tích hợp sau)
 
-## Yêu cầu
+## Công nghệ sử dụng
 
-- Python 3.x
-- pip
+- **Python** 3.x
+- **Django** 6.0.1
+- **SQLite** (database tạm thời, sẽ chuyển sang PostgreSQL sau)
+- **AI/ML** (sẽ tích hợp sau)
 
 ## Cài đặt
 
@@ -25,14 +28,12 @@ cd Python
 ### 2. Tạo và kích hoạt virtual environment
 
 **Windows PowerShell:**
-
 ```powershell
 python -m venv venv
 .\venv\Scripts\Activate.ps1
 ```
 
 **Linux/Mac:**
-
 ```bash
 python -m venv venv
 source venv/bin/activate
@@ -41,7 +42,7 @@ source venv/bin/activate
 ### 3. Cài đặt dependencies
 
 ```bash
-pip install django
+pip install -r requirements.txt
 ```
 
 ### 4. Chạy migrations
@@ -50,36 +51,65 @@ pip install django
 python manage.py migrate
 ```
 
-## Chạy server
+### 5. Tạo superuser
+
+```bash
+python manage.py createsuperuser
+```
+
+### 6. Chạy development server
 
 ```bash
 python manage.py runserver
 ```
 
-Truy cập: http://127.0.0.1:8000/
+Truy cập:
+- Trang chủ: http://127.0.0.1:8000/
+- Admin: http://127.0.0.1:8000/admin/
 
-## Cấu trúc dự án
+## Cấu trúc project
 
 ```
 Python/
 ├── venv/                      # Virtual environment
-├── CVScoringSystem/           # Django project
+├── CVScoringSystem/           # Django core settings
 │   ├── __init__.py
 │   ├── asgi.py
 │   ├── settings.py           # Cấu hình project
 │   ├── urls.py               # URL routing
 │   └── wsgi.py
-├── manage.py                  # Django management
+├── accounts/                  # App quản lý user
+│   ├── migrations/           # Database migrations
+│   ├── admin.py              # Admin configuration
+│   ├── apps.py
+│   ├── models.py             # Custom User model
+│   ├── tests.py
+│   └── views.py
+├── manage.py                  # Django CLI
+├── requirements.txt           # Python dependencies
 ├── .gitignore                # Git ignore rules
 └── README.md                 # Documentation
 ```
 
-## Git
+## Trạng thái hiện tại
 
-### Trạng thái hiện tại
+### ✅ Đã hoàn thành
 
-- ✓ Git repository đã khởi tạo
-- ✓ Commit đầu tiên đã hoàn thành
+- **Custom User Model**: Kế thừa `AbstractUser` với field `role`
+- **Phân quyền người dùng**:
+  - `recruiter`: Nhà tuyển dụng
+  - `candidate`: Ứng viên (default)
+- **Admin Interface**: Quản lý user với role selector
+- **Authentication**: Django auth system đã cấu hình
+
+### 🚧 Đang phát triển
+
+- CV upload và parsing
+- AI scoring engine
+- Dashboard cho recruiter
+- Profile cho candidate
+
+## Git workflow
 
 ### Push lên GitHub
 
@@ -89,8 +119,29 @@ git branch -M main
 git push -u origin main
 ```
 
+### Commit convention
+
+```bash
+git add .
+git commit -m "Mô tả ngắn gọn thay đổi"
+git push
+```
+
 ## Lưu ý
 
-- Database mặc định: SQLite (db.sqlite3)
-- Secret key: Nên thay đổi trong production
-- DEBUG mode: Tắt trong production
+- **Database**: SQLite (chỉ dùng cho development)
+- **SECRET_KEY**: Đổi trong production
+- **DEBUG**: Tắt trong production
+- **ALLOWED_HOSTS**: Cấu hình cho production
+
+## Roadmap
+
+1. ✅ Setup Django project
+2. ✅ Custom User model với role
+3. ✅ Admin interface
+4. 🔲 CV upload functionality
+5. 🔲 AI scoring engine
+6. 🔲 Recruiter dashboard
+7. 🔲 Candidate profile
+8. 🔲 API endpoints
+9. 🔲 Frontend UI
