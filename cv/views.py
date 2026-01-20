@@ -1,3 +1,22 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from accounts.decorators import role_required
+from .forms import CVUploadForm
 
-# Create your views here.
+
+@login_required
+@role_required('candidate')
+def upload_cv(request):
+    if request.method == 'POST':
+        form = CVUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            cv = form.save(commit=False)
+            cv.owner = request.user
+            cv.save()
+            messages.success(request, 'CV uploaded successfully!')
+            return redirect('candidate_dashboard')
+    else:
+        form = CVUploadForm()
+    
+    return render(request, 'cv/upload_cv.html', {'form': form})
