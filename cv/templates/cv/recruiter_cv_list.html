@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All CVs - Recruiter</title>
+</head>
+<body>
+    <h1>All Candidate CVs</h1>
+    
+    {% if cvs %}
+        <p>Total CVs: {{ cvs|length }}</p>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Candidate</th>
+                    <th>Email</th>
+                    <th>File Name</th>
+                    <th>Uploaded At</th>
+                    <th>Download</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cv in cvs %}
+                <tr>
+                    <td>{{ cv.owner.username }}</td>
+                    <td>{{ cv.owner.email }}</td>
+                    <td>{{ cv.file.name }}</td>
+                    <td>{{ cv.uploaded_at|date:"Y-m-d H:i:s" }}</td>
+                    <td><a href="{{ cv.file.url }}" target="_blank">Download</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No CVs have been uploaded yet.</p>
+    {% endif %}
+    
+    <p>
+        <a href="{% url 'recruiter_dashboard' %}">Back to Dashboard</a>
+    </p>
+</body>
+</html>

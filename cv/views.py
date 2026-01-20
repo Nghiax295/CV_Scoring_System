@@ -28,3 +28,10 @@ def upload_cv(request):
 def my_cv_list(request):
     cvs = CV.objects.filter(owner=request.user).order_by('-uploaded_at')
     return render(request, 'cv/my_cv_list.html', {'cvs': cvs})
+
+
+@login_required
+@role_required('recruiter')
+def recruiter_cv_list(request):
+    cvs = CV.objects.select_related('owner').order_by('-uploaded_at')
+    return render(request, 'cv/recruiter_cv_list.html', {'cvs': cvs})

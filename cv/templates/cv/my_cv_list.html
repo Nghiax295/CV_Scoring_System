@@ -1,43 +1,39 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
+  <head>
     <title>My CVs</title>
-</head>
-<body>
+  </head>
+  <body>
     <h1>My CVs</h1>
-    
-    {% if messages %}
-        {% for message in messages %}
-            <p style="color: green;">{{ message }}</p>
+
+    {% if messages %} {% for message in messages %}
+    <p style="color: green">{{ message }}</p>
+    {% endfor %} {% endif %} {% if cvs %}
+    <table border="1">
+      <thead>
+        <tr>
+          <th>File Name</th>
+          <th>Uploaded At</th>
+          <th>Download</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for cv in cvs %}
+        <tr>
+          <td>{{ cv.file.name }}</td>
+          <td>{{ cv.uploaded_at|date:"Y-m-d H:i:s" }}</td>
+          <td><a href="{{ cv.file.url }}" target="_blank">Download</a></td>
+        </tr>
         {% endfor %}
-    {% endif %}
-    
-    {% if cvs %}
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>File Name</th>
-                    <th>Uploaded At</th>
-                    <th>Download</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for cv in cvs %}
-                <tr>
-                    <td>{{ cv.file.name }}</td>
-                    <td>{{ cv.uploaded_at|date:"Y-m-d H:i:s" }}</td>
-                    <td><a href="{{ cv.file.url }}" target="_blank">Download</a></td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+      </tbody>
+    </table>
     {% else %}
-        <p>You haven't uploaded any CV yet.</p>
+    <p>You haven't uploaded any CV yet.</p>
     {% endif %}
-    
+
     <p>
-        <a href="{% url 'upload_cv' %}">Upload New CV</a> | 
-        <a href="{% url 'candidate_dashboard' %}">Back to Dashboard</a>
+      <a href="{% url 'upload_cv' %}">Upload New CV</a> |
+      <a href="{% url 'candidate_dashboard' %}">Back to Dashboard</a>
     </p>
-</body>
+  </body>
 </html>
