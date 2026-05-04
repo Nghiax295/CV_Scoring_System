@@ -1,0 +1,537 @@
+/* ================================================================
+   CV Filter — GitHub-style Design System
+   ================================================================ */
+
+/* 1. Variables */
+:root {
+  --bg:         #F6F8FA;
+  --surface:    #FFFFFF;
+  --border:     #D0D7DE;
+  --primary:    #0969DA;
+  --primary-h:  #0550AE;
+  --text:       #24292F;
+  --muted:      #57606A;
+  --danger:     #CF222E;
+  --success:    #1A7F37;
+  --warn-bg:    #FFF8C5;
+  --warn:       #9A6700;
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --r: 6px;
+}
+
+/* 2. Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 14px; }
+
+/* 3. Base */
+body {
+  font-family: var(--font);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+h1, h2, h3, h4 { font-weight: 600; color: var(--text); }
+
+/* 4. Layout ---------------------------------------------------- */
+.page-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  min-height: calc(100vh - 56px - 61px);
+}
+
+/* 5. Navbar ---------------------------------------------------- */
+.navbar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  height: 56px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.navbar__inner {
+  max-width: 1100px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.navbar__logo {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.3px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.navbar__logo:hover { text-decoration: none; color: var(--text); }
+.navbar__end {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.navbar__link {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  padding: 6px 10px;
+  border-radius: var(--r);
+  transition: background 0.1s;
+  display: inline-flex;
+  align-items: center;
+}
+.navbar__link:hover { background: var(--bg); text-decoration: none; color: var(--text); }
+.navbar__divider {
+  width: 1px;
+  height: 20px;
+  background: var(--border);
+  margin: 0 6px;
+}
+.navbar__user {
+  font-size: 13px;
+  color: var(--muted);
+  padding: 0 8px;
+}
+
+/* 6. Page Header ---------------------------------------------- */
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 24px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.page-title { font-size: 20px; font-weight: 600; margin: 0; }
+
+/* 7. Buttons --------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 5px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: var(--font);
+  border-radius: var(--r);
+  cursor: pointer;
+  border: 1px solid var(--border);
+  line-height: 20px;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: background 0.1s, border-color 0.1s;
+  background: var(--surface);
+  color: var(--text);
+}
+.btn:hover { text-decoration: none; background: var(--bg); }
+
+.btn-primary {
+  background: var(--primary);
+  color: #fff !important;
+  border-color: rgba(0, 0, 0, 0.15);
+}
+.btn-primary:hover { background: var(--primary-h); }
+
+.btn-secondary {
+  background: var(--surface);
+  color: var(--text) !important;
+  border-color: var(--border);
+}
+.btn-secondary:hover { background: var(--bg); }
+
+.btn-danger {
+  background: var(--surface);
+  color: var(--danger) !important;
+  border-color: var(--border);
+}
+.btn-danger:hover { background: #FFEBE9; border-color: var(--danger); }
+
+.btn-sm {
+  padding: 3px 10px;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+/* 8. Forms ----------------------------------------------------- */
+.form-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 24px;
+  max-width: 480px;
+  margin: 48px auto;
+}
+.form-wrap h2 { font-size: 18px; margin-bottom: 20px; }
+
+.form-group { margin-bottom: 16px; }
+
+.form-label {
+  display: block;
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+
+/* Auto-style all Django-generated inputs */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+select,
+textarea {
+  width: 100%;
+  padding: 6px 8px;
+  font-size: 14px;
+  font-family: var(--font);
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  box-sizing: border-box;
+}
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="search"]:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.12);
+}
+textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.5;
+}
+input[type="file"] {
+  font-size: 14px;
+  font-family: var(--font);
+  color: var(--text);
+}
+
+.form-hint {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+.field-error {
+  font-size: 12px;
+  color: var(--danger);
+  margin-top: 4px;
+}
+.form-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+button { font-family: var(--font); cursor: pointer; }
+
+/* Toolbar: override full-width for inline inputs */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.toolbar input[type="text"],
+.toolbar input[type="search"] {
+  width: auto;
+  flex: 1;
+  max-width: 360px;
+}
+.toolbar select { width: auto; }
+
+/* 9. Alerts ---------------------------------------------------- */
+.alert {
+  padding: 12px 16px;
+  border-radius: var(--r);
+  border: 1px solid;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+.alert ul { margin: 0; padding-left: 16px; }
+.alert-error   { background: #FFEBE9; border-color: rgba(255,129,130,.4); color: var(--danger); }
+.alert-warning { background: var(--warn-bg); border-color: rgba(212,167,44,.4); color: var(--warn); }
+.alert-success { background: #DAFBE1; border-color: rgba(74,194,107,.4); color: var(--success); }
+
+/* 10. Tags ----------------------------------------------------- */
+.tag {
+  display: inline-block;
+  padding: 2px 8px;
+  background: #DDF4FF;
+  border: 1px solid rgba(84, 174, 255, 0.25);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--primary);
+  text-decoration: none;
+  white-space: nowrap;
+  margin-right: 4px;
+  margin-bottom: 4px;
+  transition: background 0.1s;
+}
+.tag:hover { background: #CAE8FF; text-decoration: none; }
+.tag--active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+.tag-cloud { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 4px; }
+.tag-cloud-label { font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 8px; }
+
+/* 11. Job cards ----------------------------------------------- */
+.job-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 16px;
+  margin-bottom: 12px;
+  transition: border-color 0.15s;
+}
+.job-card:hover { border-color: #0969da66; }
+.job-card__title { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+.job-card__title a { color: var(--text); }
+.job-card__title a:hover { color: var(--primary); text-decoration: none; }
+.job-card__tags  { margin-bottom: 8px; }
+.job-card__meta  { font-size: 12px; color: var(--muted); }
+.job-card__preview {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin: 8px 0 12px;
+}
+.job-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* 12. Tables --------------------------------------------------- */
+.table-wrap {
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+.gh-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: var(--surface);
+}
+.gh-table thead { background: var(--bg); }
+.gh-table th {
+  padding: 10px 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+.gh-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  vertical-align: middle;
+}
+.gh-table tbody tr:last-child td { border-bottom: none; }
+.gh-table tbody tr:hover { background: var(--bg); }
+.td-actions { display: flex; gap: 8px; align-items: center; }
+
+/* 13. Pagination ---------------------------------------------- */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 28px;
+}
+.pagination a,
+.page-disabled {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  font-size: 13px;
+}
+.pagination a { color: var(--primary); background: var(--surface); }
+.pagination a:hover { background: var(--bg); text-decoration: none; }
+.page-disabled { color: var(--muted); background: var(--surface); }
+.page-info { font-size: 13px; color: var(--muted); padding: 0 8px; }
+
+/* 14. Applicant cards ----------------------------------------- */
+.applicant-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 16px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.applicant-info { display: flex; align-items: center; gap: 12px; }
+.applicant-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+.applicant-name { font-weight: 600; font-size: 14px; }
+.applicant-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.applicant-actions { display: flex; gap: 8px; align-items: center; }
+
+/* 15. Badges --------------------------------------------------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 20px;
+  border: 1px solid;
+  white-space: nowrap;
+}
+.badge-role     { background: var(--bg); color: var(--muted);    border-color: var(--border); }
+.badge-pending  { background: var(--warn-bg); color: var(--warn); border-color: rgba(212,167,44,.4); }
+.badge-reviewed { background: #DDF4FF; color: var(--primary);    border-color: rgba(84,174,255,.4); }
+.badge-rejected { background: #FFEBE9; color: var(--danger);     border-color: rgba(255,129,130,.4);}
+
+/* 16. Filter info bar ----------------------------------------- */
+.filter-info {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 14px;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.filter-info strong { color: var(--text); }
+
+.count-badge {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 2px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* 17. Detail page --------------------------------------------- */
+.detail-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+.detail-section { margin-bottom: 24px; }
+.detail-section h3 {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.detail-section p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text);
+  white-space: pre-wrap;
+}
+
+/* 18. Home / Hero --------------------------------------------- */
+.hero {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 48px 32px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+.hero h1 { font-size: 28px; margin-bottom: 10px; }
+.hero p   { color: var(--muted); font-size: 15px; margin-bottom: 24px; }
+.hero__actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 8px;
+}
+.quick-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 20px;
+}
+.quick-card h3 { font-size: 14px; margin-bottom: 6px; }
+.quick-card p  { font-size: 13px; color: var(--muted); margin-bottom: 14px; line-height: 1.5; }
+
+/* 19. Back link ----------------------------------------------- */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+.back-link:hover { color: var(--primary); text-decoration: none; }
+
+/* 20. Empty state --------------------------------------------- */
+.empty-state {
+  text-align: center;
+  padding: 48px 24px;
+  border: 1px dashed var(--border);
+  border-radius: var(--r);
+  background: var(--surface);
+}
+.empty-state p { color: var(--muted); font-size: 14px; margin-bottom: 16px; }
+
+/* 21. Footer --------------------------------------------------- */
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 20px 24px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  background: var(--surface);
+}

@@ -1,0 +1,69 @@
+{% extends 'base.html' %} {% block title %}My Applications — CV Filter{%
+endblock %} {% block content %}
+
+<div class="page-header">
+  <div>
+    <h1 class="page-title">My Applications</h1>
+    <p style="color: var(--muted); font-size: 13px; margin-top: 4px">
+      Jobs you have applied to
+    </p>
+  </div>
+  <span class="count-badge"
+    >{{ applications.count }} application{{ applications.count|pluralize
+    }}</span
+  >
+</div>
+
+{% if applications %} {% for app in applications %}
+<div class="applicant-card">
+  <div class="applicant-info">
+    <div class="applicant-avatar">{{ app.job.title|first|upper }}</div>
+    <div>
+      <div class="applicant-name">{{ app.job.title }}</div>
+      <div class="applicant-meta">
+        Recruiter: <strong>{{ app.job.recruiter.username }}</strong>
+        &mdash; Applied {{ app.created_at|date:"M j, Y" }}
+      </div>
+    </div>
+  </div>
+
+  <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
+    {% if app.status == 'pending' %}
+    <span class="badge badge-pending">Pending</span>
+    {% elif app.status == 'reviewed' %}
+    <span class="badge badge-reviewed">Reviewed</span>
+    {% elif app.status == 'rejected' %}
+    <span class="badge badge-rejected">Rejected</span>
+    {% endif %}
+
+    <div class="applicant-actions">
+      <a
+        href="{% url 'jobs:view_my_cv' app.id %}"
+        target="_blank"
+        class="btn btn-secondary btn-sm"
+        >View CV</a
+      >
+
+      <form
+        method="post"
+        action="{% url 'jobs:withdraw_application' app.id %}"
+        onsubmit="return confirm('Withdraw this application?');"
+        style="display: inline"
+      >
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger btn-sm">Withdraw</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endfor %} {% else %}
+<div class="empty-state">
+  <p>You have not applied to any jobs yet.</p>
+  <a
+    href="{% url 'jobs:job_list' %}"
+    class="btn btn-primary"
+    style="margin-top: 12px"
+    >Browse Jobs</a
+  >
+</div>
+{% endif %} {% endblock %}

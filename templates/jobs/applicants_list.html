@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Applicants — {{ job.title }} — CV Filter{% endblock %}
+
+{% block content %}
+
+<a href="{% url 'jobs:recruiter_jobs' %}" class="back-link">&#8592; My Jobs</a>
+
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Applicants</h1>
+    <p style="color:var(--muted); font-size:13px; margin-top:4px;">{{ job.title }}</p>
+  </div>
+  <span class="count-badge">{{ applications.count }} applicant{{ applications.count|pluralize }}</span>
+</div>
+
+{% if applications %}
+  {% for app in applications %}
+  <div class="applicant-card">
+
+    <div class="applicant-info">
+      <div class="applicant-avatar">{{ app.applicant.username|first|upper }}</div>
+      <div>
+        <div class="applicant-name">{{ app.applicant.username }}</div>
+        <div class="applicant-meta">Uploaded {{ app.created_at|date:"M j, Y" }}</div>
+      </div>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+      {% if app.status == 'pending' %}
+        <span class="badge badge-pending">Pending</span>
+      {% elif app.status == 'reviewed' %}
+        <span class="badge badge-reviewed">Reviewed</span>
+      {% elif app.status == 'rejected' %}
+        <span class="badge badge-rejected">Rejected</span>
+      {% endif %}
+
+      <div class="applicant-actions">
+        <a href="{{ app.cv_file.url }}" target="_blank" class="btn btn-secondary btn-sm">View CV</a>
+        <a href="{{ app.cv_file.url }}" download class="btn btn-secondary btn-sm">Download</a>
+      </div>
+    </div>
+
+  </div>
+  {% endfor %}
+
+{% else %}
+<div class="empty-state">
+  <p>No applications have been submitted for this job yet.</p>
+</div>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block title %}My Jobs — CV Filter{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+  <h1 class="page-title">My Job Posts</h1>
+  <a href="{% url 'jobs:create_job' %}" class="btn btn-primary btn-sm">+ Create Job</a>
+</div>
+
+<!-- Search + Sort toolbar -->
+<form method="get" class="toolbar">
+  <input
+    type="text"
+    name="q"
+    value="{{ query }}"
+    placeholder="Search by title or tags&hellip;"
+  />
+  <select name="sort">
+    <option value="new" {% if sort == 'new' %}selected{% endif %}>Newest First</option>
+    <option value="old" {% if sort == 'old' %}selected{% endif %}>Oldest First</option>
+  </select>
+  <button type="submit" class="btn btn-secondary">Filter</button>
+  {% if query or sort == 'old' %}
+    <a href="{% url 'jobs:recruiter_jobs' %}" class="btn btn-secondary">Clear</a>
+  {% endif %}
+</form>
+
+{% if query or sort == 'old' %}
+<div class="filter-info">
+  {% if query %}Keyword: <strong>{{ query }}</strong>{% endif %}
+  {% if query and sort == 'old' %}&middot;{% endif %}
+  {% if sort == 'old' %}Sorted: <strong>Oldest First</strong>{% endif %}
+</div>
+{% endif %}
+
+{% if jobs %}
+<div class="table-wrap">
+  <table class="gh-table">
+    <thead>
+      <tr>
+        <th>Job Title</th>
+        <th>Posted</th>
+        <th>Applicants</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for job in jobs %}
+      <tr>
+        <td>
+          <a href="{% url 'jobs:job_detail' job.id %}" style="font-weight:600; color:var(--text);">{{ job.title }}</a>
+          {% if job.tag_list %}
+          <div style="margin-top:5px;">
+            {% for tag in job.tag_list %}<span class="tag">{{ tag }}</span>{% endfor %}
+          </div>
+          {% endif %}
+        </td>
+        <td style="color:var(--muted); white-space:nowrap;">{{ job.created_at|date:"M j, Y" }}</td>
+        <td>
+          <a href="{% url 'jobs:view_applicants' job.id %}" style="font-weight:600;">
+            {{ job.applications.count }}
+            <span style="color:var(--muted); font-weight:400;">applicant{{ job.applications.count|pluralize }}</span>
+          </a>
+        </td>
+        <td>
+          <div class="td-actions">
+            <a href="{% url 'jobs:edit_job' job.id %}" class="btn btn-secondary btn-sm">Edit</a>
+            <a href="{% url 'jobs:view_applicants' job.id %}" class="btn btn-secondary btn-sm">Applicants</a>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% else %}
+<div class="empty-state">
+  {% if query %}
+    <p>No jobs found matching "<strong>{{ query }}</strong>".</p>
+  {% else %}
+    <p>You haven't posted any jobs yet.</p>
+    <a href="{% url 'jobs:create_job' %}" class="btn btn-primary">Post your first job</a>
+  {% endif %}
+</div>
+{% endif %}
+
+{% endblock %}

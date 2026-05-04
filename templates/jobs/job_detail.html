@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ job.title }} — CV Filter{% endblock %}
+
+{% block content %}
+
+<a href="{% url 'jobs:job_list' %}" class="back-link">&#8592; Back to Job Listings</a>
+
+<div class="page-header">
+  <h1 class="page-title">{{ job.title }}</h1>
+
+  {% if user == job.recruiter %}
+  <div style="display:flex; gap:8px;">
+    <a href="{% url 'jobs:edit_job' job.id %}" class="btn btn-secondary btn-sm">Edit</a>
+    <a href="{% url 'jobs:view_applicants' job.id %}" class="btn btn-secondary btn-sm">View Applicants</a>
+  </div>
+  {% endif %}
+</div>
+
+<!-- Tags -->
+<div style="margin-bottom:14px;">
+  {% for tag in job.tag_list %}
+    <a href="{% url 'jobs:job_list' %}?tag={{ tag|lower }}" class="tag">{{ tag }}</a>
+  {% empty %}
+    <span style="font-size:13px; color:var(--muted);">No tags</span>
+  {% endfor %}
+</div>
+
+<!-- Meta -->
+<div class="detail-meta">
+  <span>Posted by <strong>{{ job.recruiter.username }}</strong></span>
+  <span>{{ job.created_at|date:"F j, Y" }}</span>
+</div>
+
+<!-- Description -->
+<div class="detail-section">
+  <h3>Description</h3>
+  <p>{{ job.description }}</p>
+</div>
+
+<!-- Requirements -->
+<div class="detail-section">
+  <h3>Requirements</h3>
+  <p>{{ job.requirement }}</p>
+</div>
+
+<!-- Applicant action -->
+{% if user.role == 'applicant' %}
+<div style="padding-top:16px; border-top:1px solid var(--border); margin-top:8px;">
+  {% if already_applied %}
+    <div class="alert alert-success" style="display:inline-flex; gap:8px;">
+      &#10003; You have already applied for this position.
+    </div>
+  {% else %}
+    <a href="{% url 'jobs:apply_job' job.id %}" class="btn btn-primary">Apply with CV</a>
+  {% endif %}
+</div>
+{% endif %}
+
+{% endblock %}

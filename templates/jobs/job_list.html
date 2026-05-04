@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}Job Listings — CV Filter{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+  <h1 class="page-title">Job Listings</h1>
+  <span class="count-badge">{{ page_obj.paginator.count }} job{{ page_obj.paginator.count|pluralize }}</span>
+</div>
+
+<!-- Search bar -->
+<form method="get" class="toolbar">
+  <input
+    type="text"
+    name="q"
+    value="{{ query }}"
+    placeholder="Search by title, description, or tags&hellip;"
+  />
+  {% if active_tag %}<input type="hidden" name="tag" value="{{ active_tag }}">{% endif %}
+  <button type="submit" class="btn btn-secondary">Search</button>
+  {% if query or active_tag %}
+    <a href="{% url 'jobs:job_list' %}" class="btn btn-secondary">Clear</a>
+  {% endif %}
+</form>
+
+<!-- Tag cloud -->
+{% if tag_cloud %}
+<div style="margin-bottom:20px;">
+  <p class="tag-cloud-label">Filter by tag</p>
+  <div class="tag-cloud">
+    {% for tag in tag_cloud %}
+      <a
+        href="?tag={{ tag }}{% if query %}&q={{ query }}{% endif %}"
+        class="tag {% if tag == active_tag %}tag--active{% endif %}"
+      >{{ tag }}</a>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+<!-- Filter summary -->
+{% if query or active_tag %}
+<div class="filter-info">
+  {% if query %}Keyword: <strong>{{ query }}</strong>{% endif %}
+  {% if query and active_tag %}&middot;{% endif %}
+  {% if active_tag %}Tag: <strong>{{ active_tag }}</strong>{% endif %}
+  &middot; {{ page_obj.paginator.count }} result{{ page_obj.paginator.count|pluralize }}
+</div>
+{% endif %}
+
+<!-- Job cards -->
+{% for job in page_obj %}
+<div class="job-card">
+  <div class="job-card__title">
+    <a href="{% url 'jobs:job_detail' job.id %}">{{ job.title }}</a>
+  </div>
+
+  <div class="job-card__tags">
+    {% for tag in job.tag_list %}
+      <a href="?tag={{ tag|lower }}{% if query %}&q={{ query }}{% endif %}" class="tag">{{ tag }}</a>
+    {% endfor %}
+  </div>
+
+  <p class="job-card__preview">{{ job.description|truncatewords:25 }}</p>
+
+  <div class="job-card__footer">
+    <span class="job-card__meta">
+      Posted by <strong>{{ job.recruiter.username }}</strong>
+      &middot; {{ job.created_at|date:"M j, Y" }}
+    </span>
+    <a href="{% url 'jobs:job_detail' job.id %}" class="btn btn-secondary btn-sm">View Job</a>
+  </div>
+</div>
+{% empty %}
+<div class="empty-state">
+  <p>{% if query or active_tag %}No jobs found matching your filters.{% else %}No job posts available yet.{% endif %}</p>
+</div>
+{% endfor %}
+
+<!-- Pagination -->
+{% if page_obj.paginator.num_pages > 1 %}
+<div class="pagination">
+  {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}{% if active_tag %}&tag={{ active_tag }}{% endif %}">&#8592; Prev</a>
+  {% else %}
+    <span class="page-disabled">&#8592; Prev</span>
+  {% endif %}
+
+  <span class="page-info">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+  {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}{% if active_tag %}&tag={{ active_tag }}{% endif %}">Next &#8594;</a>
+  {% else %}
+    <span class="page-disabled">Next &#8594;</span>
+  {% endif %}
+</div>
+{% endif %}
+
+{% endblock %}
